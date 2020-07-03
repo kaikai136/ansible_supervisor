@@ -1,0 +1,34 @@
+---
+- name: update source bacpack
+  yum: update_cache=yes
+
+
+- name: Ensure supervisor is installed.
+  yum:
+    name: "{{ supervisor_package_name }}"
+    state: present
+
+- name: Copy supervisor configuration in place.
+  template:
+    src: "{{ supervisor_centos_conf_template }}"
+    dest: "{{ supervisor_conf_file_path }}"
+    owner: root
+    mode: 0644
+
+
+- name: enable
+  command: systemctl enable supervisord
+
+- name: start centos supervisor
+  command: systemctl start supervisord
+
+- name: Add managed vhost config files.
+  copy:
+    src: centos/examp.ini.exp
+    dest: /etc/supervisord.d/examp.ini.exp
+    force: yes
+    backup: no
+    owner: root
+  notify:
+    - reload supervisor
+

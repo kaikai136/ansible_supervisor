@@ -1,0 +1,30 @@
+---
+- name: update_cache
+  apt: update_cache=yes cache_valid_time=86400
+  changed_when: false
+
+- name: Ensure supervisor is installed.
+  apt:
+    name: "{{ supervisor_package_name }}"
+    state: present
+    default_release: "{{ supervisor_default_release }}"
+
+- name: kaikai Copy supervisor configuration in place.
+  template:
+    src: "{{ supervisor_ubuntu_conf_template }}"
+    dest: "{{ supervisor_conf_file_path }}"
+    owner: root
+    mode: 0644
+  notify:
+    - reload supervisor
+    - restart supervisor
+
+- name: Add managed vhost config files.
+  copy:
+    src: ubuntu/examp.conf.exp
+    dest: /etc/supervisor/conf.d/examp.conf.exp
+    force: yes
+    backup: no
+    owner: root
+  notify:
+    - reload supervisor

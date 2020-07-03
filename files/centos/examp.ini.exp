@@ -1,0 +1,19 @@
+;监控程序名字
+[program:exp]
+process_name=%(program_name)s_%(process_num)02d
+
+;要用 supervisor 管理的程序指令
+#command=/home/developer/WitPoseidon-L-pack/ai-traffic-back/vtrans/vtrans
+command=/bin/bash -c ''
+;
+;是否自动启动
+autostart=true
+;是否自动重启动
+autorestart=true
+numprocs=1
+;
+;是否重定向错误
+redirect_stderr=true
+;
+;重定向到指定路径的日志文件
+stdout_logfile=/tmp/exp.log

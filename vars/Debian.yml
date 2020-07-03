@@ -1,0 +1,30 @@
+---
+supervisor_package_name: supervisor
+supservisor_user: root
+pidfile_path: /var/run/
+#UNIX socket文件，supervisorctl会使用, 修改为/var/run/目录，避免被系统删除
+http_server_file_path: /var/run/
+supservisor_logfile_path: /var/log/supervisor/
+include_files_path: /etc/supervisor/conf.d/
+# 通过 UNIX socket 连接 supervisord，路径与 unix_http_server 部分的 file 一致
+serverurl: unix:///var/run/
+# (ip_address:port specifier, *:port for all iface)
+web_port: 8001
+# (default is no username (open server))
+web_username: kaikai
+#(default is no password (open server)
+web_password: 123
+supervisor_conf_file_path: /etc/supervisor/supervisord.conf
+
+
+
+
+
+
+
+
+
+
+
+
+

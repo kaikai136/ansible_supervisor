@@ -1,0 +1,23 @@
+---
+# handlers file for install_supervisor
+- name: reload supervisor
+  command: supervisorctl reload
+
+- name: restart supervisor
+  service: name=supervisor state=restarted
+#  when: ansible_os_family == 'Debian'
+
+- name: validate supervisor configuration
+  command: supervisord -c /etc/supervisor/supervisord.conf
+  changed_when: false
+#  when: ansible_os_family == 'Debian'
+
+#- name: reload supervisor
+#  shell: supervisorctl reload
+
+
+
+
+
+- name: enable supervisor
+  command: systemctl enable supervisord

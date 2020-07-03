@@ -1,0 +1,62 @@
+;设置进程的名称，使用 supervisorctl 来管理进程时需要使用该进程名,如果supervisor管理多个项目，需要起不同的进程名称
+[program:Examples]
+;启动程序的命令，可以使用相对路径和参数, 
+command=/bin/bash -c ''
+;进程名称, 默认为 %(program_name)s，即 [program:x] 中的 x; process_name expr (default %(program_name)s)
+;process_name=%(program_name)s
+;要启动的进程数, 默认为1; number of processes copies to start (def 1)
+;numprocs=1
+
+;执行 command 之前，先切换到程序所在的工作目录; 
+directory=/mnt/
+
+;优先级, 值越高, 最后启动, 最先被关闭, 默认值999
+priority=100
+;supervisor启动的时候是否随着同时启动，默认True
+autostart=true
+;这个选项是子进程启动多少秒之后，此时状态如果是running，则我们认为启动成功了。默认值为1
+;startsecs=1
+;启动失败自动重试次数，默认是3
+;startretries=3
+
+;设置子进程挂掉后自动重启的情况，有三个选项，false,unexpected和true。默认unexpected，如果为false的时候，无论什么情况下，都不会被重新启动，如果为unexpected，只有当进程的退出码不在下面的exitcodes里面定义的才会重启，如果是True会自动重启
+autorestart=true
+
+;当退出码不是0时, 执行重启, 默认值0, 配合上一条使用
+;exitcodes=0
+
+;停止信号,默认TERM
+;中断:INT(类似于Ctrl+C)(kill -INT pid),退出后会将写文件或日志(推荐)
+;终止:TERM(kill -TERM pid) //信号量参考文章（http://c.biancheng.net/cpp/html/2784.html）
+;挂起:HUP(kill -HUP pid),注意与Ctrl+Z/kill -stop pid不同
+;从容停止:QUIT(kill -QUIT pid)
+;KILL, USR1, USR2其他见命令(kill -l),说明1
+stopsignal=INT 
+;stopwaitsecs=10 ;等待b4 SIGKILL的最大秒数(默认为10)
+
+;command用bash -c 启动 python xx.py一定要设置stopasgroup和killasgroup为true，否则stop不了真正的python/java进程，因为bash命令进程和真正的python进程不是同一个。如果是command=python xx.py这样，并且程序里面没有使用多进程，则无需设置以下。
+stopasgroup=true; 向UNIX进程组发送停止信号(默认为false)
+killasgroup=true ; SIGKILL UNIX进程组(默认为false)
+
+;使用哪个用户来启动该进程，默认当前用户，如果是root用户需要再supervisor的配置文件中配置
+user=root
+
+;redirect_stderr=false          ; redirect proc stderr to stdout (default false), 把 stderr 重定向到 stdout，默认 false
+;日志输出路径,如果输出内容不多可以指定这个并把上面的重定向打开, 需要注意当指定目录不存在时无法正常启动，所以需要手动创建目录（supervisord会自动创建日志文件）
+;stdout_logfile=/a/path; stdout log path, NONE for none; default AUTO,
+;stdout_logfile_maxbytes=1MB   ; max # logfile bytes b4 rotation (default 50MB), 日志文件大小，默认 50MB
+;stdout_logfile_backups=10     ; # of stdout logfile backups (0 means none, default 10), 日志文件备份数, 默认10个
+;stdout_capture_maxbytes=1MB   ; number of bytes in 'capturemode' (default 0), 'capturemode'中的字节数(默认为0)
+;stdout_events_enabled=false   ; emit events on stdout writes (default false), 在stdout写操作上发出事件(默认为false)
+;stdout_syslog=false           ; send stdout to syslog with process name (default false), 发送stdout到进程名为syslog的系统日志(默认为false)
+
+;错误日志路径, 需要注意当指定目录不存在时无法正常启动，所以需要手动创建目录（supervisord会自动创建日志文件）
+stderr_logfile=/home/witcomm/tdsp/supervisor_log.log    ; stderr log path, NONE for none; default AUTO
+;stderr_logfile_maxbytes=1MB   ; max # logfile bytes b4 rotation (default 50MB), 日志文件大小，默认 50MB
+;stderr_logfile_backups=10     ; # of stderr logfile backups (0 means none, default 10), 日志文件备份数, 默认10个
+stderr_logfile_backups=1     ; # of stderr logfile backups (0 means none, default 10), 日志文件备份数, 默认10个
+;stderr_capture_maxbytes=1MB   ; number of bytes in 'capturemode' (default 0), 'capturemode'中的字节数(默认为0)
+;stderr_events_enabled=false   ; emit events on stderr writes (default false), 在stderr写操作上发出事件(默认为false)
+;stderr_syslog=false           ; send stderr to syslog with process name (default false), 使用进程名将stderr发送到syslog(默认为false)
+;environment=A="1",B="2"       ; process environment additions (def no adds); 可以通过environment来添加需要的环境变量，一种常见的用法是修改PYTHONPATH
+;serverurl=AUTO                ; override serverurl computation (childutils); 覆盖serverurl计算(childutils)

@@ -1,0 +1,36 @@
+---
+# defaults file for install_supervisor
+supervisor_default_release: ""
+# the relative start priority (default 999)
+priority: 999
+# max main logfile bytes b4 rotation; default 50MB, 日志文件大小，超出会rotate，默认50MB
+logfile_maxbytes: 50MB
+# of main logfile backups; 0 means none, default 10, 日志文件保留备份数量默认10
+logfile_backups: 10
+#log level; default info; others: debug,warn,trace, 日志级别，默认info，其它:debug,warn,trace
+loglevel: trace
+#start in foreground if true; default false, 是否在前台启动，默认是false，即以daemon的方式启动
+nodaemon: false
+#min. avail startup file descriptors; default 1024, 可以打开的文件描述符的最小值，默认1024
+minfds: 1024
+#min. avail process descriptors;default 200, 可以打开的进程数的最小值，默认200
+minprocs: 200
+# process file creation umask; default 022, 处理文件创建umask;默认022
+umask: 22
+# supervisord identifier, default is 'supervisor', supervisord标识符，默认为'supervisor'
+identifier: supervisor
+# default is not to cd during start
+#directory: /tmp
+# don't clean up tempfiles at start; default false
+#nocleanup: true
+#'AUTO' child log dir, default $TEMP
+#childlogdir: /tmp
+#key value pairs to add to environment
+#environment=KEY="value"
+# strip ansi escape codes in logs; def. false
+#strip_ansi: false
+supervisor_ubuntu_conf_template: "ubuntu_supervisord.conf.j2"
+supervisor_centos_conf_template: "centos_supervisord.conf.j2"
+
+supervisor_service_state: started
+supervisor_service_enabled: true

@@ -1,0 +1,29 @@
+[unix_http_server]
+file = {{ http_server_file_path }}supervisor.sock
+
+[supervisord]
+logfile={{ supservisor_logfile_path }}supervisord.log
+logfile_maxbytes={{ logfile_maxbytes }}
+logfile_backups={{ logfile_backups }}
+loglevel={{ loglevel }}
+pidfile={{ pidfile_path }}supervisord.pid
+nodaemon={{ nodaemon }}
+minfds={{ minfds }}
+minprocs={{ minprocs }}
+umask={{ umask }}
+user={{ supservisor_user }}
+
+[rpcinterface:supervisor]
+supervisor.rpcinterface_factory = supervisor.rpcinterface:make_main_rpcinterface
+
+[supervisorctl]
+serverurl={{ serverurl }}supervisor.sock
+
+[inet_http_server]
+port=*:{{ web_port }}
+username={{ web_username }}
+password={{ web_password }}
+
+
+[include]
+files={{ include_files_path }}*.conf
